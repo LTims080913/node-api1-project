@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import shortid from 'shortid';
+import UserCards from './components/UserCards';
+
+const initialState = {
+  id: '',
+  name: '',
+  bio: ''
+}
 
 function App() {
+  const [user, setUser] = useState(initialState)
+  const handleChange = e => {
+    setUser({
+      ...user, [e.target.name]:e.target.value
+    })
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form >
+        <input
+          name='name'
+          type='text'
+          placeholder='Name'
+          value={user.name}
+          onChange={handleChange}
+        />
+        <br/>
+        <input
+          name='bio'
+          type='text'
+          placeholder='Bio'
+          value={user.bio}
+          onChange={handleChange}
+        />
+        <br/>
+        <button>Add New User</button>
+      </form>
+      <UserCards/>
     </div>
   );
 }

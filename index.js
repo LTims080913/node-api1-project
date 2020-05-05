@@ -1,8 +1,10 @@
 const express = require('express')
 const shortid = require('shortid')
+const cors = require('cors')
 
 const server = express()
-server.use(express.json());
+server.use(express.json())
+server.use(cors())
 
 let users = [
     {
@@ -13,7 +15,7 @@ let users = [
     {
         id: shortid(),
         name: "Ash Ketchum",
-        bio: 'Lost the Pokemon championship to Latosha'
+        bio: 'Loser!!!!'
     },
     {
         id: shortid(),
@@ -70,12 +72,12 @@ server.get('/api/users/:id', function(req, res) {
 //Removes the user with the specified `id` and returns the deleted user
 server.delete('/api/users/:id', function(req, res) {
     const id = req.params.id
-    if (!id) {
+    const userId = users.filter(user => user.id !== id)
+    if (!userId) {
         res.status(404).json({ message: "The user with the specified ID does not exist." })
     } else if (!res){
         res.status(500).json({ errorMessage: "The user could not be removed" })
     } else {
-    const userId = users.filter(user => user.id !== id)
     res.status(200).json(userId) 
     }
 })
